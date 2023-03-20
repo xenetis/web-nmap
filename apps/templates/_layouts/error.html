@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>{% block title %}{% endblock %} - WEB-NMAP</title>
+        {% include '_includes/header.html' %}
+    </head>
+    <body>
+        <div class="layoutError">
+            <div class="layoutError_content">
+                {% block content %}{% endblock content %}
+            </div>
+        </div>
+        {% include '_includes/scripts.html' %}
+        {% block javascripts %}{% endblock javascripts %}
+    </body>
+</html>

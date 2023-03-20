@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>{% block title %}{% endblock %} - WEB-NMAP</title>
+        {% include '_includes/header.html' %}
+    </head>
+    <body class="webnmap-nav-fixed">
+        {% include '_includes/navigation.html' %}
+        <div id="layoutSidenav">
+            <div id="layoutSidenav_nav">
+                {% include '_includes/sidebar.html' %}
+            </div>
+            <div id="layoutSidenav_content">
+                {% block content %}{% endblock content %}
+                {% include '_includes/footer.html' %}
+            </div>
+        </div>
+        {% include '_includes/scripts.html' %}
+        {% block javascripts %}{% endblock javascripts %}
+    </body>
+</html>

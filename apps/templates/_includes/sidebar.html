@@ -1,0 +1,28 @@
+<nav class="webnmap-sidenav accordion webnmap-sidenav-dark" id="sidenavAccordion">
+    <div class="webnmap-sidenav-menu">
+        <div class="nav">
+            <div class="webnmap-sidenav-menu-heading">Core</div>
+            <a class="nav-link {% if 'index' in activepath %} active {% endif %}" href="{{ url_for('home_blueprint.index') }}">
+                <div class="webnmap-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                Home
+            </a>
+            <a class="nav-link {% if 'targets' in activepath %} active {% endif %}" href="{{ url_for('home_blueprint.targets') }}">
+                <div class="webnmap-nav-link-icon"><i class="fas fa-network-wired"></i></div>
+                Targets
+            </a>
+            <a class="nav-link {% if 'commands' in activepath %} active {% endif %}" href="{{ url_for('home_blueprint.commands') }}">
+                <div class="webnmap-nav-link-icon"><i class="fas fa-terminal"></i></div>
+                Commands
+            </a>
+            <div class="webnmap-sidenav-menu-heading">Scans</div>
+            <a class="nav-link {% if 'scans' in activepath %} active {% endif %}" href="{{ url_for('home_blueprint.scans') }}">
+                <div class="webnmap-nav-link-icon"><i class="fas fa-project-diagram"></i></div>
+                Scans
+            </a>
+
+        </div>
+    </div>
+    <div class="webnmap-sidenav-footer p-2 small text-center">
+        version: <span class="fw-bold al-center"> {{ config.VERSION }}</span>
+    </div>
+</nav>

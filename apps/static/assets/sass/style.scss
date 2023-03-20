@@ -1,0 +1,242 @@
+// Coolors palette
+// https://coolors.co/palette/000000-2f4550-586f7c-b8dbd9-f4f4f9
+
+/* SCSS HEX */
+$black: #000000ff;
+$charcoal: #2f4550ff;
+$paynes-gray: #586f7cff;
+$light-blue: #b8dbd9ff;
+$white: #f4f4f9ff;
+
+html, body {
+  height: 100%;
+  background-color: $white;
+
+  a {
+    color: $charcoal;
+  }
+}
+
+.layoutAuth {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+
+  .layoutAuth_content {
+    min-width: 0;
+    flex-grow: 1;
+  }
+
+  .layoutAuth_footer {
+    min-width: 0;
+  }
+}
+
+.layoutError {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+
+  .layoutError_content {
+    min-width: 0;
+    flex-grow: 1;
+  }
+
+  .layoutError_footer {
+    min-width: 0;
+  }
+}
+
+#layoutSidenav {
+  display: flex;
+
+  #layoutSidenav_nav {
+    flex-basis: 225px;
+    flex-shrink: 0;
+    transition: transform 0.15s ease-in-out;
+    z-index: 1038;
+    transform: translateX(-225px);
+
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    width: 225px;
+    height: 100vh;
+    z-index: 1038;
+
+    .webnmap-sidenav {
+      padding-top: 56px;
+
+      .webnmap-sidenav-menu {
+        overflow-y: auto;
+      }
+    }
+
+    .webnmap-sidenav-dark {
+      background-color: $charcoal;
+      color: $light-blue;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      flex-wrap: nowrap;
+
+      .webnmap-sidenav-menu {
+        flex-grow: 1;
+        .nav {
+          flex-direction: column;
+          flex-wrap: nowrap;
+
+          .webnmap-sidenav-menu-heading {
+            color: $paynes-gray;
+            padding: 1.75rem 1rem 0.75rem;
+            font-size: 0.75rem;
+            font-weight: bold;
+            text-transform: uppercase;
+          }
+
+          .nav-link {
+            color: $paynes-gray;
+            display: flex;
+            align-items: center;
+            padding-top: 0.75rem;
+            padding-bottom: 0.75rem;
+            position: relative;
+
+            :hover {
+              color: $white;
+            }
+
+            .webnmap-nav-link-icon {
+              font-size: 0.9rem;
+            }
+
+            .webnmap-sidenav-collapse-arrow {
+              display: inline-block;
+              margin-left: auto;
+              transition: transform 0.15s ease;
+            }
+
+            &.active {
+              color: $white;
+
+              .webnmap-nav-link-icon {
+              color: $white;
+              }
+            }
+
+            .webnmap-nav-link-icon {
+              color: $light-blue;
+              margin-right: 0.5rem;
+            }
+
+            .webnmap-sidenav-collapse-arrow {
+              color: $light-blue;
+            }
+          }
+
+          .nav-link.collapsed .webnmap-sidenav-collapse-arrow {
+            transform: rotate(-90deg);
+          }
+        }
+      }
+
+      .webnmap-sidenav-footer {
+        background-color: $paynes-gray;
+      }
+    }
+
+    // body class toggled
+    body.webnmap-sidenav-toggled & {
+      transform: translateX(0);
+    }
+  }
+
+  #layoutSidenav_content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-width: 0;
+    flex-grow: 1;
+    min-height: calc(100vh - 56px);
+    margin-left: -225px;
+    padding-left: 225px;
+    top: 56px;
+  }
+}
+
+@media (min-width: 992px) {
+  #layoutSidenav {
+    #layoutSidenav_nav {
+      transform: translateX(0);
+
+      // body class toggled
+      body.webnmap-sidenav-toggled & {
+        transform: translateX(-225px);
+      }
+    }
+
+    #layoutSidenav_content {
+      margin-left: 0;
+      transition: margin 0.15s ease-in-out;
+
+      // body class toggled
+      body.webnmap-sidenav-toggled & {
+        margin-left: -225px;
+      }
+
+      :before {
+        // body class toggled
+        body.webnmap-sidenav-toggled & {
+          display: none;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 991px) {
+  #layoutSidenav_content:before {
+    // body class toggled
+    body.webnmap-sidenav-toggled & {
+      content: "";
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: $black;
+      z-index: 1037;
+      opacity: 0.5;
+      transition: opacity 0.3s ease-in-out;
+    }
+  }
+}
+
+nav.webnmap-topnav {
+  background-color: $charcoal;
+  padding-left: 0;
+  height: 56px;
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 1039;
+  display: flex;
+  flex-wrap: nowrap;
+
+  .navbar-brand {
+    width: 225px;
+    margin: 0;
+    color: $paynes-gray;
+  }
+
+  #sidebarToggle {
+    color: $light-blue;
+  }
+}
+.background-dark {
+  background-color: $charcoal;
+}

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>{% block title %}{% endblock %} - WEB-NMAP</title>
+        {% include '_includes/header.html' %}
+    </head>
+    <body class="background-dark">
+        <div class="layoutAuth">
+            <div class="layoutAuth_content">
+                {% block content %}{% endblock content %}
+            </div>
+            <div class="layoutAuth_footer">
+                {% include '_includes/footer.html' %}
+            </div>
+        </div>
+        {% include '_includes/scripts.html' %}
+        {% block javascripts %}{% endblock javascripts %}
+    </body>
+</html>

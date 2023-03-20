@@ -1,0 +1,91 @@
+{% extends "_layouts/default.html" %}
+
+{% block title %} Scans {% endblock %}
+
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+    <main>
+
+        <div class="container-fluid px-4">
+            <h1 class="mt-4"><i class="fas fa-project-diagram me-1"></i> Scans</h1>
+            <ol class="breadcrumb mb-4">
+                <li class="breadcrumb-item"><a href="{{ url_for('home_blueprint.index') }}">Home</a></li>
+                <li class="breadcrumb-item active">Scans</li>
+            </ol>
+        </div>
+
+
+        <div class="card mb-4">
+            <div class="card-header">
+                <div class="row justify-content-between">
+                    <div class="col-4">
+                    </div>
+                    <div class="col-4 text-end">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCommandModal">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <table id="datatablesSimple">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Target</th>
+                            <th>Date created</th>
+                            <th>Date updated</th>
+                            <th>Status</th>
+                            <th>Command</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>Id</th>
+                            <th>Target</th>
+                            <th>Date created</th>
+                            <th>Date updated</th>
+                            <th>Status</th>
+                            <th>Command</th>
+                            <th>Actions</th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        {%- for scan in scans %}
+                            <tr>
+                                <td>{{ scan.id }}</td>
+                                <td>
+                                    {%- for target in targets %}
+                                        {% if scan.target == target.id %}
+                                            <a href="{{ url_for('home_blueprint.scan_result', scan_id=scan.id) }}">{{ target.host }}</a>
+                                        {% endif %}
+                                    {% endfor %}
+                                </td>
+                                <td>{{ scan.date_create }}</td>
+                                <td>{{ scan.date_update }}</td>
+                                <td>{{ scan.status }}</td>
+                                <td>{{ scan.command }}</td>
+                                <td>
+                                    <form action="{{ url_for('home_blueprint.scans') }}" method="POST">
+                                        <input type="hidden" name="action" value="delete">
+                                        <input type="hidden" name="id" value="{{ scan.id }}">
+                                        <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </main>
+
+{% endblock content %}
+
+{% block javascripts %}
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
+{% endblock javascripts %}
