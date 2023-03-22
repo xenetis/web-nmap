@@ -15,6 +15,10 @@
                 Commands
             </a>
             <div class="webnmap-sidenav-menu-heading">Scans</div>
+            <a class="nav-link {% if 'scanner' in activepath %} active {% endif %}" href="{{ url_for('home_blueprint.scanner') }}">
+                <div class="webnmap-nav-link-icon"><i class="fas fa-crosshairs"></i></div>
+                Scanner
+            </a>
             <a class="nav-link {% if 'scans' in activepath %} active {% endif %}" href="{{ url_for('home_blueprint.scans') }}">
                 <div class="webnmap-nav-link-icon"><i class="fas fa-project-diagram"></i></div>
                 Scans

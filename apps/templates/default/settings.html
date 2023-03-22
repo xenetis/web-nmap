@@ -15,28 +15,7 @@
             </ol>
 
             <div class="row">
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header bg-primary text-white">
-                            <h3 class="card-title">Thread scanner</h3>
-                        </div>
-                        <div class="card-body">
-                            Status: {{'stopped' if not thread_started  else 'started'}}
-                        </div>
-                        <div class="card-footer">
-                            <div class="d-flex">
-                                <form class="p-2 flex-fill" method="post">
-                                    <input type="hidden" name="action" value="start_thread">
-                                    <button type="submit" class="{{'disabled' if thread_started }} btn btn-success">Start</button>
-                                </form>
-                                <form class="p-2 flex-fill text-end" method="post">
-                                    <input type="hidden" name="action" value="stop_thread">
-                                    <button type="submit" class="{{'disabled' if not thread_started }} btn btn-danger btn-stop">Stop</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                TODO
             </div>
 
         </div>
@@ -45,12 +24,4 @@
 {% endblock content %}
 
 {% block javascripts %}
-<script>
-    $( document ).ready(function() {
-        $('.btn-stop').on('click', function() {
-            var $this = $(this);
-            $this.append(' <i class="fas fa-spinner fa-spin"></i>')
-        });
-    });
-</script>
 {% endblock javascripts %}

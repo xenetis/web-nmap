@@ -1,6 +1,6 @@
 {% extends "_layouts/default.html" %}
 
-{% block title %} Scans {% endblock %}
+{% block title %} Scan detail {% endblock %}
 
 {% block stylesheets %}{% endblock stylesheets %}
 
@@ -9,57 +9,70 @@
     <main>
 
         <div class="container-fluid px-4">
-            <h1 class="mt-4"><i class="fas fa-project-diagram me-1"></i> Scan result</h1>
+            <h1 class="mt-4"><i class="fas fa-project-diagram me-1"></i> Scan detail</h1>
             <ol class="breadcrumb mb-4">
                 <li class="breadcrumb-item"><a href="{{ url_for('home_blueprint.index') }}">Home</a></li>
                 <li class="breadcrumb-item"><a href="{{ url_for('home_blueprint.scans') }}">Scans</a></li>
-                <li class="breadcrumb-item active">Scan result</li>
+                <li class="breadcrumb-item active">Scan detail</li>
             </ol>
         </div>
 
+        <div class="container-fluid px-4">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <div class="row justify-content-between">
+                        <div class="col-4">
+                            <i class="fas fa-project-diagram me-1"></i>
+                            Scan command <strong><pre>{{ result.nmap.command_line }}</pre></strong>
+                        </div>
+                        <div class="col-4 text-end">
+                            {{ scan.date_create }}
 
-        <div class="card mb-4">
-            <div class="card-header">
-                <div class="row justify-content-between">
-                    <div class="col-4">
-                        <i class="fas fa-project-diagram me-1"></i>
-                        Scan command <strong><pre>{{ result.nmap.command_line }}</pre></strong>
-                    </div>
-                    <div class="col-4 text-end">
-                        {{ scan.date_create }}
-
-                        <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseJson" aria-expanded="true" aria-controls="collapseJson">
-                            View JSON
-                        </button>
+                            <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseJson" aria-expanded="true" aria-controls="collapseJson">
+                                View JSON
+                            </button>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="card-body">
+                <div class="card-body">
 
-                {%- for scan in result.scan %}
-                    <div>
-                        <h2>{{ scan }}</h2>
-                        <h3>Hostnames:</h3>
-                        {%- for hostname in result.scan[scan].hostnames %}
-                            <p>
-                                <strong>{{ hostname.type }}: </strong>
-                                {{ hostname.name }}
-                            </p>
-                        {% endfor %}
-                        <h3>TCP Ports:</h3>
-                        {%- for tcp in result.scan[scan].tcp %}
-                            <p>
-                                <strong>{{ tcp }}</strong>
-                        <pre>{{ result.scan[scan].tcp[tcp] }}</pre>
-                            </p>
-                        {% endfor %}
-<!--                        {{ result.scan[scan] }}-->
-                    </div>
+                    {%- for scan in result.scan %}
+                        <div>
+                            <h2>{{ scan }}</h2>
+                            <h3>Hostnames:</h3>
+                            {%- for hostname in result.scan[scan].hostnames %}
+                                <p>
+                                    <strong>{{ hostname.type }}: </strong>
+                                    {{ hostname.name }}
+                                </p>
+                            {% endfor %}
+                            <h3>TCP Ports:</h3>
+                            <div class="row">
+                                {%- for tcp in result.scan[scan].tcp %}
+                                    <div class="col-xl-3 col-md-6">
+                                        <div class="card mb-4">
+                                            <div class="card-header">Port: {{ tcp }}</div>
+                                            <div class="card-body">
+                                                {%- for k, v in result.scan[scan].tcp[tcp].items() %}
+                                                    <p><strong>{{ k }}:</strong> {{ v }}
+                                                {% endfor %}
+                                            </div>
+                                            <div class="card-footer d-flex align-items-center justify-content-between">
+                                                No CVE
+        <!--                                        <a class="small text-white stretched-link" href="#">View Details</a>-->
+        <!--                                        <div class="small text-white"><i class="fas fa-angle-right"></i></div>-->
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
 
-                {% endfor %}
-                <div class="collapse" id="collapseJson">
-                    <div class="card card-body">
-                        <pre>{{ result_json }}</pre>
+                    {% endfor %}
+                    <div class="collapse" id="collapseJson">
+                        <div class="card card-body">
+                            <pre>{{ result_json }}</pre>
+                        </div>
                     </div>
                 </div>
             </div>

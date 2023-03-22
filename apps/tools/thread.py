@@ -53,7 +53,7 @@ class ThreadScanner(Thread):
                             db.session.commit()
 
                             # nm.scan(hosts=target_el.host, arguments=command_el.command)
-                            result = nm.scan(hosts=target_el.host)
+                            result = nm.scan(hosts=target_el.host, arguments=command_el.command)
                             scan_el.result = bytes(json.dumps(result), 'utf-8')
                             scan_el.status = 'completed'
                             db.session.commit()

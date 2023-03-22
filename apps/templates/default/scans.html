@@ -8,6 +8,46 @@
 
     <main>
 
+        <div class="modal fade" id="addScanModal" tabindex="-1" role="dialog" aria-labelledby="Add a Scan" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <form action="{{ url_for('home_blueprint.scans') }}" method="POST">
+                        <input type="hidden" name="action" value="add">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="addScanModalTitle">Add scan</h5>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label class="custom-control-label" for="command">Command</label>
+                                <select class="form-select" id="command" name="command" aria-label="Default select example">
+                                    {%- for command in commands %}
+                                        <option value="{{ command.id }}">{{ command.description }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="custom-control-label" for="target">Target</label>
+                                <select class="form-select" id="target" name="target" aria-label="Default select example">
+                                    {%- for target in targets %}
+                                        <option value="{{ target.id }}">{{ target.host }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Add</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+
         <div class="container-fluid px-4">
             <h1 class="mt-4"><i class="fas fa-project-diagram me-1"></i> Scans</h1>
             <ol class="breadcrumb mb-4">
@@ -23,7 +63,7 @@
                     <div class="col-4">
                     </div>
                     <div class="col-4 text-end">
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addCommandModal">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addScanModal">
                             <i class="fas fa-plus"></i>
                         </button>
                     </div>
@@ -60,20 +100,34 @@
                                 <td>
                                     {%- for target in targets %}
                                         {% if scan.target == target.id %}
-                                            <a href="{{ url_for('home_blueprint.scan_result', scan_id=scan.id) }}">{{ target.host }}</a>
+                                            {% if scan.status == "completed" %}
+                                                <a href="{{ url_for('home_blueprint.scan_result', scan_id=scan.id) }}">{{ target.host }}</a>
+                                            {% else %}
+                                                {{ target.host }}
+                                            {% endif %}
                                         {% endif %}
                                     {% endfor %}
                                 </td>
                                 <td>{{ scan.date_create }}</td>
                                 <td>{{ scan.date_update }}</td>
                                 <td>{{ scan.status }}</td>
-                                <td>{{ scan.command }}</td>
                                 <td>
-                                    <form action="{{ url_for('home_blueprint.scans') }}" method="POST">
+                                    {%- for command in commands %}
+                                        {% if scan.command == command.id %}
+                                            {{ command.description }}</a>
+                                        {% endif %}
+                                    {% endfor %}
+                                </td>
+                                <td>
+                                    <form action="{{ url_for('home_blueprint.scans') }}" method="POST" class="inline-flex">
                                         <input type="hidden" name="action" value="delete">
                                         <input type="hidden" name="id" value="{{ scan.id }}">
-                                        <button type="submit" class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                                        <button type="button" class="btn btn-danger delete-btn" name="scan"><i class="fas fa-trash"></i></button>
+                                        {% if scan.status == "completed" %}
+                                            <a href="{{ url_for('home_blueprint.scan_result', scan_id=scan.id) }}" class="btn btn-success"><i class="fas fa-eye"></i></a>
+                                        {% endif %}
                                     </form>
+
                                 </td>
                             </tr>
                         {% endfor %}

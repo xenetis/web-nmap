@@ -27,15 +27,22 @@ flask run --host=0.0.0.0 --port=5000
 
 ---
 
-### 0.1.0
+### v0.2.0
+
+- Create and delete scan
+- Display JSON Nmap result
+- Arguments to Nmap command
+- Add scanner in sidebar
+
+### v0.1.0
 
 - Flask framework
 - Getbootstrap template
 - SQLite support
 - GulpJS JS & SCSS watch and build
 - Dockerfile
-- CRUD targets in Db (IP / domain)
-- CRUD commands in Db
+- Create / delete / display targets in Db (IP / domain)
+- Create / delete / display commands in Db
 - Thread scanner start and stop
 - Run nmap scan in a separate Thread
 - Retrieve, save JSON Nmap result
@@ -47,13 +54,14 @@ flask run --host=0.0.0.0 --port=5000
 - Seeds for targets and commands
 - Mariadb support
 - Analyse JSON Nmap result
-- Display JSON Nmap result
 - Call API CVE Db with version retrieved from NMAP
 - Crontab Nmap scan
 - Add Nikto scan
 - Add dependencies (CSS JS) inside project and Gulp these files
 - Add [Socket.IO](https://stackoverflow.com/questions/62173332/how-to-render-messages-in-real-time-flask-python) support to display the thread scanner status in navigation bar
 - Search bar 
+- Delete button: conditional display 
+- Update my account
 
 ## 🏗 Third Parts
 

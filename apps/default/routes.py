@@ -20,8 +20,12 @@ from apps.tools.thread import ThreadScanner
 @login_required
 def index():
     nb_targets = db.session.query(TargetModel.id).count()
+    nb_commands = db.session.query(CommandModel.id).count()
 
-    return render_template('default/index.html', activepath='index', nb_targets=nb_targets)
+    return render_template('default/index.html',
+                           activepath='index',
+                           nb_targets=nb_targets,
+                           nb_commands=nb_commands)
 
 
 @blueprint.route('/targets', methods=['GET', 'POST'])
@@ -59,6 +63,23 @@ def targets():
 @blueprint.route('/scans', methods=['GET', 'POST'])
 @login_required
 def scans():
+    if request.method == 'POST':
+        if request.form['action'] == 'delete':
+            id = request.form['id']
+            if ScanModel.query.filter_by(id=id).first() is not None:
+                scan = ScanModel.query.filter_by(id=id).first()
+                db.session.delete(scan)
+                db.session.commit()
+
+        if request.form['action'] == 'add':
+            scan = ScanModel(
+                target=request.form['target'],
+                command=request.form['command'],
+                status='pending',
+            )
+            db.session.add(scan)
+            db.session.commit()
+
     return render_template('default/scans.html',
                            activepath='scans',
                            scans=ScanModel.query.all(),
@@ -66,7 +87,7 @@ def scans():
                            commands=CommandModel.query.all())
 
 
-@blueprint.route('/scans/<scan_id>', methods=['GET', 'POST'])
+@blueprint.route('/scans/detail/<scan_id>', methods=['GET', 'POST'])
 @login_required
 def scan_result(scan_id):
     scan = ScanModel.query.filter_by(id=scan_id).first()
@@ -109,10 +130,15 @@ def commands():
                            activepath='commands',
                            commands=CommandModel.query.all())
 
-
 @blueprint.route('/settings', methods=['GET', 'POST'])
 @login_required
 def settings():
+    print("settings")
+    return render_template('default/settings.html', activepath='settings')
+
+@blueprint.route('/scanner', methods=['GET', 'POST'])
+@login_required
+def scanner():
     print("Scanner lock: " + str(config.Config.SCANNER_LOCK))
     if request.method == 'POST':
         if request.form['action'] == 'start_thread':
@@ -142,7 +168,7 @@ def settings():
             thread_started = True
     print("=============== THREADS ===============")
 
-    return render_template('default/settings.html', activepath='index', thread_started=thread_started)
+    return render_template('default/scanner.html', activepath='scanner', thread_started=thread_started)
 
 
 @blueprint.route('/<template>')
