@@ -21,7 +21,10 @@ jobs:
       run: |
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag xenetis/web-nmap:$(grep VERSION .env  | sed -e 's/.*=//')
+      run: |
+        docker build . --file Dockerfile --tag xenetis/web-nmap:$(grep VERSION .env  | sed -e 's/.*=//')
 
     - name: Docker Push
-      run: docker push ${{secrets.DOCKER_USER}}/web-nmap
+      run: | 
+        docker tag ${{secrets.DOCKER_USER}}/web-nmap:$GITHUB_RUN_NUMBER ${{secrets.DOCKER_USER}}/web-nmap:latest
+        docker push ${{secrets.DOCKER_USER}}/web-nmap
