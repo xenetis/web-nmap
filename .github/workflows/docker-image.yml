@@ -26,5 +26,5 @@ jobs:
 
     - name: Docker Push
       run: | 
-        docker tag ${{secrets.DOCKER_USER}}/web-nmap:$GITHUB_RUN_NUMBER ${{secrets.DOCKER_USER}}/web-nmap:latest
+        docker tag ${{secrets.DOCKER_USER}}/web-nmap:$(grep VERSION .env  | sed -e 's/.*=//') ${{secrets.DOCKER_USER}}/web-nmap:latest
         docker push ${{secrets.DOCKER_USER}}/web-nmap
