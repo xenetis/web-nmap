@@ -24,4 +24,4 @@ jobs:
       run: docker build . --file Dockerfile --tag xenetis/web-nmap:$(date +%s)
 
     - name: Docker Push
-      run: docker push --all-tags$ {{secrets.DOCKER_USER}}/web-nmap && docker push ${{secrets.DOCKER_USER}}/web-nmap
+      run: docker push --all-tags ${{secrets.DOCKER_USER}}/web-nmap && docker push ${{secrets.DOCKER_USER}}/web-nmap
