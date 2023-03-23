@@ -21,14 +21,6 @@
                         </div>
                         <div class="modal-body">
                             <div class="form-group">
-                                <label class="custom-control-label" for="command">Command</label>
-                                <select class="form-select" id="command" name="command" aria-label="Default select example">
-                                    {%- for command in commands %}
-                                        <option value="{{ command.id }}">{{ command.description }}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                            <div class="form-group">
                                 <label class="custom-control-label" for="target">Target</label>
                                 <select class="form-select" id="target" name="target" aria-label="Default select example">
                                     {%- for target in targets %}
@@ -36,7 +28,14 @@
                                     {% endfor %}
                                 </select>
                             </div>
-
+                            <div class="form-group">
+                                <label class="custom-control-label" for="command">Command</label>
+                                <select class="form-select" id="command" name="command" aria-label="Default select example">
+                                    {%- for command in commands %}
+                                        <option value="{{ command.id }}">{{ command.description }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>

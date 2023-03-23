@@ -29,6 +29,11 @@ class ThreadScanner(Thread):
 
             while True:
                 if not config.Config.SCANNER_LOCK:
+                    # Cancel scan processing in case of app restart
+                    scan_el = ScanModel.query.filter_by(status='processing').first()
+                    if scan_el is not None:
+                        scan_el.status = 'pending'
+                        db.session.commit()
                     break
 
                 # Check if a scan in progress
@@ -36,7 +41,8 @@ class ThreadScanner(Thread):
                 if scan_el is not None:
                     target_el = TargetModel.query.filter_by(id=scan_el.target).first()
                     command_el = CommandModel.query.filter_by(id=scan_el.command).first()
-                    print("Scan in progress: " + target_el.host + " command: " + command_el.command)
+                    print("Scan in progress: " + target_el.host + " command: " +
+                          command_el.type.value + " " + command_el.command)
                 else:
                     scan_el = ScanModel.query.filter_by(status='pending') .first()
                     if scan_el is not None:
@@ -52,12 +58,13 @@ class ThreadScanner(Thread):
                             scan_el.status = 'processing'
                             db.session.commit()
 
-                            # nm.scan(hosts=target_el.host, arguments=command_el.command)
                             result = nm.scan(hosts=target_el.host, arguments=command_el.command)
                             scan_el.result = bytes(json.dumps(result), 'utf-8')
                             scan_el.status = 'completed'
                             db.session.commit()
-                    else:
-                        print("No scan")
+                            print("Scan: " + command_el.type.value + " " + command_el.command + " " +
+                                  target_el.host + " completed")
+                    # else:
+                    #     print("No scan")
 
                 sleep(2)

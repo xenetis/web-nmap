@@ -30,6 +30,7 @@ def login():
         # read form data
         username = request.form['username']
         password = request.form['password']
+        remember_me = True if 'rememberMe' in request.form else False
 
         # Locate user
         user = UserModel.query.filter_by(username=username).first()
@@ -37,7 +38,7 @@ def login():
         # Check the password
         if user and verify_pass(password, user.password):
 
-            login_user(user)
+            login_user(user, remember_me)
             return redirect(url_for('auth_blueprint.route_default'))
 
         # Something (user or pass) is not ok
@@ -59,7 +60,7 @@ def register():
         username = request.form['username']
         email = request.form['email']
 
-        # Check usename exists
+        # Check username exists
         user = UserModel.query.filter_by(username=username).first()
         if user:
             return render_template('auth/register.html',

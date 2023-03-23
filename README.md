@@ -22,10 +22,21 @@ flask run --host=0.0.0.0 --port=5000
 
 [http://localhost:5000/](http://localhost:5000/)
 
+Login: **admin**
+
+Password: **admin**
+
 
 ## 🗃 Versions
 
 ---
+
+### v0.3.0
+- Seeds for user, target and commands
+- Nmap in Dockerfile
+- Better display script part of Nmap scan
+- Add rememberMe on Login
+- Update my account
 
 ### v0.2.0
 
@@ -51,17 +62,17 @@ flask run --host=0.0.0.0 --port=5000
 
 ---
 
-- Seeds for targets and commands
 - Mariadb support
 - Analyse JSON Nmap result
-- Call API CVE Db with version retrieved from NMAP
+- Call API CVE Db with version retrieved from Nmap
 - Crontab Nmap scan
 - Add Nikto scan
+- Add Dirsearch scan
 - Add dependencies (CSS JS) inside project and Gulp these files
 - Add [Socket.IO](https://stackoverflow.com/questions/62173332/how-to-render-messages-in-real-time-flask-python) support to display the thread scanner status in navigation bar
 - Search bar 
-- Delete button: conditional display 
-- Update my account
+- Delete button: conditional display
+- Change datatables button from form post to ajax
 
 ## 🏗 Third Parts
 
@@ -69,6 +80,7 @@ flask run --host=0.0.0.0 --port=5000
 
 - [Flask](https://palletsprojects.com/p/flask/)
 - [SQLAlchemy](https://www.sqlalchemy.org/)
+- [Pyhton-Nmap](https://bitbucket.org/xael/python-nmap/src/master/)
 - [Gulpjs](https://gulpjs.com/)
 - [Jquery](https://www.jquery.com)
 - [Getbootstrap](https://getbootstrap.com/)

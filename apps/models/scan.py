@@ -8,11 +8,11 @@ class ScanModel(db.Model):
     __tablename__ = 'Scan'
 
     id = db.Column(db.Integer, primary_key=True)
-    target = db.Column(db.ForeignKey("Target.id"))
+    target = db.Column(db.Integer, db.ForeignKey("Target.id"), nullable=False)
     date_create = db.Column(db.DateTime(), default=datetime.datetime.now)
     date_update = db.Column(db.DateTime(), onupdate=datetime.datetime.now)
     status = db.Column(db.Enum('pending', 'processing', 'completed'))
-    command = db.Column(db.ForeignKey("Command.id"))
+    command = db.Column(db.Integer, db.ForeignKey("Command.id"), nullable=False)
     result = db.Column(db.LargeBinary)
 
     def __init__(self, **args):

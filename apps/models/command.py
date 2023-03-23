@@ -30,9 +30,6 @@ class CommandModel(db.Model):
 
     @staticmethod
     def in_type(value):
-
-        # if value in ','.join(map(str, enumType)):
         if value in ','.join(map(str, CommandType)):
             return True
-
         return False

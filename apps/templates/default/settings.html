@@ -14,8 +14,52 @@
                 <li class="breadcrumb-item active">Settings</li>
             </ol>
 
-            <div class="row">
-                TODO
+            <div class="row justify-content-center">
+                <div class="col-xl-6 col-md-8">
+                    <div class="card mb-4">
+                        <form action="{{ url_for('home_blueprint.settings') }}" method="POST">
+                            {{ form.hidden_tag() }}
+                            <div class="card-header bg-primary text-white">
+                                <h3 class="card-title">My account</h3>
+                            </div>
+                            <div class="card-body">
+                                <span class="text-center">
+                                    {% if success %}
+                                        <p class="text-success fst-italic"> {{ success | safe }} </p>
+                                    {% endif %}
+                                    {% if msg %}
+                                        <p class="text-danger fst-italic"> {{ msg | safe }} </p>
+                                    {% endif %}
+                                    {% for field, errors in form.errors.items() %}
+                                        <p class="text-danger fst-italic"> {{ ', '.join(errors) }} </p>
+                                    {% endfor %}
+                                </span>
+                                <div class="form-group">
+                                    <label class="small mb-1" for="username">Username</label>
+                                    {{ form.username(placeholder="Username", class="form-control", value=user.username) }}
+                                </div>
+                                <div class="form-group">
+                                    <label class="small mb-1" for="email">Email</label>
+                                    {{ form.email(placeholder="Email", class="form-control", value=user.email) }}
+                                </div>
+                                <div class="form-group">
+                                    <label class="small mb-1" for="password">Password</label>
+                                    {{ form.password(placeholder="Password", class="form-control") }}
+                                </div>
+                                <div class="form-group">
+                                    <label class="small mb-1" for="passwordConfirm">Password confirm</label>
+                                    {{ form.passwordConfirm(placeholder="Password confirm", class="form-control") }}
+                                    <div class="small fst-italic">Leave password fields empty to keep existing one</div>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <div class="form-group text-end">
+                                    <button type="submit" name="login" class="btn btn-primary">Save</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
 
         </div>

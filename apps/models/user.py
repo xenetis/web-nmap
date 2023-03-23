@@ -22,7 +22,7 @@ class UserModel(db.Model, UserMixin):
                 value = value[0]
 
             if key == 'password':
-                value = hash_pass(value)  # we need bytes here (not plain str)
+                value = hash_pass(value)
 
             setattr(self, key, value)
 
@@ -31,8 +31,8 @@ class UserModel(db.Model, UserMixin):
 
 
 @login_manager.user_loader
-def user_loader(id):
-    return UserModel.query.filter_by(id=id).first()
+def user_loader(user_id):
+    return UserModel.query.filter_by(id=user_id).first()
 
 
 @login_manager.request_loader

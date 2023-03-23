@@ -1,10 +1,18 @@
-FROM python:3.10
+FROM python:3.10-bullseye
 
 # This prevents Python from writing out pyc files
 ENV PYTHONDONTWRITEBYTECODE 1
 
 # This keeps Python from buffering stdin/stdout
 ENV PYTHONUNBUFFERED 1
+
+RUN apt-get update && \
+    apt-get install -y nmap && \
+    apt-get clean autoclean && \
+    apt-get autoremove --yes && \
+    rm -rf /var/lib/{apt,dpkg,cache,log}/
+
+RUN curl https://raw.githubusercontent.com/nmap/nmap/master/scripts/clamav-exec.nse -o /usr/share/nmap/scripts/clamav-exec.nse
 
 WORKDIR /src
 

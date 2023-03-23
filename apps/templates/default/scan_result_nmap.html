@@ -49,12 +49,24 @@
                             <h3>TCP Ports:</h3>
                             <div class="row">
                                 {%- for tcp in result.scan[scan].tcp %}
-                                    <div class="col-xl-3 col-md-6">
+                                    <div class="col-xl-4 col-md-6">
                                         <div class="card mb-4">
                                             <div class="card-header">Port: {{ tcp }}</div>
                                             <div class="card-body">
                                                 {%- for k, v in result.scan[scan].tcp[tcp].items() %}
-                                                    <p><strong>{{ k }}:</strong> {{ v }}
+                                                    {% if 'script' in k %}
+                                                        <p>
+                                                            <strong>{{ k }}:</strong>
+                                                            {%- for k2, v2 in result.scan[scan].tcp[tcp].script.items() %}
+                                                                <p class="ms-4">
+                                                                    <strong>{{ k2 }}:</strong>
+                                                                    <pre>{{ v2 }}</pre>
+                                                                </p>
+                                                            {% endfor %}
+                                                        </p>
+                                                    {% else %}
+                                                        <p><strong>{{ k }}:</strong> {{ v }}</p>
+                                                    {% endif %}
                                                 {% endfor %}
                                             </div>
                                             <div class="card-footer d-flex align-items-center justify-content-between">

@@ -1,13 +1,17 @@
 # -*- encoding: utf-8 -*-
 import json
 from time import sleep
+
+from flask_login.utils import _get_user, current_user
+
 from apps.default import blueprint
 from flask import render_template, request, redirect
 from flask_login import login_required
 from jinja2 import TemplateNotFound
 
-from apps.models import ScanModel, TargetModel, CommandModel
-from apps.tools import validate_ip
+from apps.default.forms import UpdateAccountForm
+from apps.models import ScanModel, TargetModel, CommandModel, UserModel
+from apps.tools import validate_ip, hash_pass
 from apps import db, config
 
 import validators
@@ -130,11 +134,67 @@ def commands():
                            activepath='commands',
                            commands=CommandModel.query.all())
 
+
 @blueprint.route('/settings', methods=['GET', 'POST'])
 @login_required
 def settings():
-    print("settings")
-    return render_template('default/settings.html', activepath='settings')
+
+    success = None
+    me = {
+        'id': current_user.id,
+        'email': current_user.email,
+        'username': current_user.username
+    }
+    update_account_form = UpdateAccountForm(request.form)
+
+    if request.method == 'POST' and update_account_form.validate():
+
+        username = request.form['username']
+        email = request.form['email']
+        password = request.form['password']
+
+        msg = None
+
+        # Check username exists
+        user = db.session.query(UserModel).filter_by(username=username).first()
+        if user and user.id != me['id']:
+            msg = 'Username already exists'
+
+        # Check email exists
+        user = db.session.query(UserModel).filter_by(email=email).first()
+        if user and user.id != me['id']:
+            msg = 'Email already exists'
+
+        if msg is not None:
+            return render_template('default/settings.html',
+                                   msg=msg,
+                                   user=me,
+                                   form=update_account_form)
+        else:
+            user = db.session.query(UserModel).filter_by(id=current_user.id).first()
+            user.username = username
+            user.email = email
+            if password:
+                user.password = hash_pass(password)
+            db.session.flush()
+            db.session.commit()
+
+            current_user.email = email
+            current_user.username = username
+
+            success = "Successfully saved"
+
+            me = {
+                'id': current_user.id,
+                'email': current_user.email,
+                'username': current_user.username
+            }
+
+    return render_template('default/settings.html',
+                           success=success,
+                           user=me,
+                           form=update_account_form)
+
 
 @blueprint.route('/scanner', methods=['GET', 'POST'])
 @login_required

@@ -15,6 +15,9 @@ def configure_database(app):
     def initialize_database():
         db.create_all()
 
+        from apps.tools.seeder import seeder
+        seeder(db)
+
     @app.teardown_request
     def shutdown_session(exception=None):
         db.session.remove()
