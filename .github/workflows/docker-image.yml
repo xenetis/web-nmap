@@ -27,4 +27,5 @@ jobs:
     - name: Docker Push
       run: | 
         docker tag ${{secrets.DOCKER_USER}}/web-nmap:$(grep VERSION .env  | sed -e 's/.*=//') ${{secrets.DOCKER_USER}}/web-nmap:latest
-        docker push ${{secrets.DOCKER_USER}}/web-nmap
+        docker push ${{secrets.DOCKER_USER}}/web-nmap:$(grep VERSION .env  | sed -e 's/.*=//')
+        docker push ${{secrets.DOCKER_USER}}/web-nmap:latest
