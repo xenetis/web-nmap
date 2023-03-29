@@ -10,7 +10,7 @@
         <div class="container-fluid px-4">
             <h1 class="mt-4">Home</h1>
             <div class="row">
-                <div class="col-xl-3 col-md-6">
+                <div class="col-xl-4 col-md-6">
                     <div class="card bg-primary text-white mb-4">
                         <div class="card-body">
                             <div class="d-flex">
@@ -28,7 +28,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-xl-3 col-md-6">
+                <div class="col-xl-4 col-md-6">
                     <div class="card bg-primary text-white mb-4">
                         <div class="card-body">
                             <div class="d-flex">
@@ -42,6 +42,24 @@
                         </div>
                         <div class="card-footer d-flex align-items-center justify-content-between">
                             <a class="small text-white stretched-link" href="{{ url_for('home_blueprint.commands') }}">View Details</a>
+                            <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-md-6">
+                    <div class="card bg-primary text-white mb-4">
+                        <div class="card-body">
+                            <div class="d-flex">
+                                <div class="p-2 flex-fill">
+                                    Scans: {{ nb_scans }}
+                                </div>
+                                <div class="p-2 flex-fill text-end fs-2">
+                                    <i class="fas fa-project-diagram"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer d-flex align-items-center justify-content-between">
+                            <a class="small text-white stretched-link" href="{{ url_for('home_blueprint.scans') }}">View Details</a>
                             <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                         </div>
                     </div>

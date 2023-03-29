@@ -109,7 +109,12 @@
                                 </td>
                                 <td>{{ scan.date_create }}</td>
                                 <td>{{ scan.date_update }}</td>
-                                <td>{{ scan.status }}</td>
+                                <td>
+                                    {% if scan.status == 'pending' %}<i class="fas fa-pause"></i> {% endif %}
+                                    {% if scan.status == 'processing' %}<i class="fas fa-spinner fa-spin"></i> {% endif %}
+                                    {% if scan.status == 'completed' %}<i class="fas fa-check-square"></i> {% endif %}
+                                    {{ scan.status }}
+                                </td>
                                 <td>
                                     {%- for command in commands %}
                                         {% if scan.command == command.id %}

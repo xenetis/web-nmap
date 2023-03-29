@@ -2,7 +2,39 @@
 
 ---
 
-**Web-nmap** is a Python Flask project doing NMAP scan and display readable results
+**Web-nmap** is a Python Flask project doing NMAP scan and display readable results.
+
+## 🪪 Access
+
+---
+
+[http://localhost:5000/](http://localhost:5000/)
+
+Login: **admin**
+
+Password: **admin**
+
+
+## 🏁 Docker-compose
+
+---
+
+````yaml
+version: "3.5"
+services:
+  webnmap:
+    image: xenetis/web-nmap:latest
+    container_name: webnmap
+    restart: always
+    environment:
+      - TZ=Europe/Paris
+    ports:
+      - "5000:5000"
+    volumes:
+      - "./webnmap:/src/_datas"
+````
+
+Or find it here: https://github.com/xenetis/docker-compose-examples/tree/main/web-nmap
 
 ## 🛠 Local Setup
 
@@ -18,18 +50,14 @@ pip3 install -r requirements.txt
 flask run --host=0.0.0.0 --port=5000
 ````
 
-### Access
-
-[http://localhost:5000/](http://localhost:5000/)
-
-Login: **admin**
-
-Password: **admin**
-
-
 ## 🗃 Versions
 
 ---
+
+### v0.4.0
+- Add Socket.IO messages from thread scanner
+- Add Bootstrap Toast messages 
+- Add nb_scans on homepage
 
 ### v0.3.0
 - Seeds for user, target and commands
@@ -69,10 +97,9 @@ Password: **admin**
 - Add Nikto scan
 - Add Dirsearch scan
 - Add dependencies (CSS JS) inside project and Gulp these files
-- Add [Socket.IO](https://stackoverflow.com/questions/62173332/how-to-render-messages-in-real-time-flask-python) support to display the thread scanner status in navigation bar
 - Search bar 
 - Delete button: conditional display
-- Change datatables button from form post to ajax
+- Change datatables buttons from form post to ajax
 
 ## 🏗 Third Parts
 
@@ -81,6 +108,7 @@ Password: **admin**
 - [Flask](https://palletsprojects.com/p/flask/)
 - [SQLAlchemy](https://www.sqlalchemy.org/)
 - [Pyhton-Nmap](https://bitbucket.org/xael/python-nmap/src/master/)
+- [Python-Socket IO](https://python-socketio.readthedocs.io/en/latest/)
 - [Gulpjs](https://gulpjs.com/)
 - [Jquery](https://www.jquery.com)
 - [Getbootstrap](https://getbootstrap.com/)

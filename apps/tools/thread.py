@@ -44,7 +44,7 @@ class ThreadScanner(Thread):
                     print("Scan in progress: " + target_el.host + " command: " +
                           command_el.type.value + " " + command_el.command)
                 else:
-                    scan_el = ScanModel.query.filter_by(status='pending') .first()
+                    scan_el = ScanModel.query.filter_by(status='pending').first()
                     if scan_el is not None:
                         # Start a scan
                         target_el = TargetModel.query.filter_by(id=scan_el.target).first()
@@ -52,8 +52,11 @@ class ThreadScanner(Thread):
                         print("Start scan: " + command_el.type.value + " " + command_el.command + " " + target_el.host)
 
                         if command_el.type.name == 'nmap':
-
                             nm = nmap.PortScanner()
+
+                            from run import scan_event
+                            scan_event("Start scan : " + command_el.type.value + " " + command_el.command + " " +
+                                       target_el.host)
 
                             scan_el.status = 'processing'
                             db.session.commit()
@@ -62,9 +65,7 @@ class ThreadScanner(Thread):
                             scan_el.result = bytes(json.dumps(result), 'utf-8')
                             scan_el.status = 'completed'
                             db.session.commit()
-                            print("Scan: " + command_el.type.value + " " + command_el.command + " " +
-                                  target_el.host + " completed")
-                    # else:
-                    #     print("No scan")
+                            scan_event("Scan: " + command_el.type.value + " " + command_el.command + " " +
+                                       target_el.host + " completed", "/scans/detail/" + str(scan_el.id))
 
                 sleep(2)

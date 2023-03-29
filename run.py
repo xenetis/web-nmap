@@ -3,6 +3,8 @@
 import os
 from flask_migrate import Migrate
 from flask_minify import Minify
+from flask_socketio import SocketIO
+
 from sys import exit
 
 from apps.config import app_config
@@ -20,6 +22,8 @@ except KeyError:
 
 app = create_app(app_config)
 
+mysocket = SocketIO(app, cors_allowed_origins="*")
+
 Migrate(app, db)
 
 if not DEBUG:
@@ -33,4 +37,12 @@ if DEBUG:
     app.logger.info('ASSETS_ROOT      = ' + app_config.ASSETS_ROOT)
 
 if __name__ == "__main__":
+    mysocket.run(app)
     app.run()
+
+
+@mysocket.on('scan_event', namespace='/')
+def scan_event(message, link=""):
+    print('received message (scan_event): ' + message)
+    mysocket.emit('scan_event', '{"message": "' + message + '", "link": "' + link + '"}', namespace='/')
+

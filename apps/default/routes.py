@@ -1,8 +1,11 @@
 # -*- encoding: utf-8 -*-
 import json
+from datetime import datetime
+
 from time import sleep
 
-from flask_login.utils import _get_user, current_user
+from flask_login.utils import current_user
+from sqlalchemy import desc
 
 from apps.default import blueprint
 from flask import render_template, request, redirect
@@ -23,13 +26,18 @@ from apps.tools.thread import ThreadScanner
 @blueprint.route('/index')
 @login_required
 def index():
+    # from run import scan_event
+    # scan_event('Event emitted from Python index')
+
     nb_targets = db.session.query(TargetModel.id).count()
     nb_commands = db.session.query(CommandModel.id).count()
+    nb_scans = db.session.query(ScanModel.id).count()
 
     return render_template('default/index.html',
                            activepath='index',
                            nb_targets=nb_targets,
-                           nb_commands=nb_commands)
+                           nb_commands=nb_commands,
+                           nb_scans=nb_scans)
 
 
 @blueprint.route('/targets', methods=['GET', 'POST'])
@@ -67,6 +75,7 @@ def targets():
 @blueprint.route('/scans', methods=['GET', 'POST'])
 @login_required
 def scans():
+
     if request.method == 'POST':
         if request.form['action'] == 'delete':
             id = request.form['id']
@@ -86,7 +95,7 @@ def scans():
 
     return render_template('default/scans.html',
                            activepath='scans',
-                           scans=ScanModel.query.all(),
+                           scans=ScanModel.query.order_by(desc(ScanModel.date_update)).all(),
                            targets=TargetModel.query.all(),
                            commands=CommandModel.query.all())
 
@@ -138,7 +147,6 @@ def commands():
 @blueprint.route('/settings', methods=['GET', 'POST'])
 @login_required
 def settings():
-
     success = None
     me = {
         'id': current_user.id,
@@ -231,6 +239,12 @@ def scanner():
     return render_template('default/scanner.html', activepath='scanner', thread_started=thread_started)
 
 
+@blueprint.route('/scanner/toast', methods=['GET'])
+@login_required
+def ajax_socket_message():
+    message = 'Hello, world! This is a toast message.'
+    return render_template('default/toast.html', message=message, now=datetime.now())
+
 @blueprint.route('/<template>')
 @login_required
 def route_template(template):
@@ -259,3 +273,4 @@ def get_activepath(request):
 
     except:
         return None
+
